@@ -1,14 +1,16 @@
 import datetime
 import os
 import zipfile
+import re
 
 
 def gather_old_directories(directory: str, today: datetime.datetime) -> dict:
     directories = {}
     directories_old = {}
+    c_date = re.compile(r".*\\20[0-9][0-9]\\[0-1][0-9]\\[0-3][0-9]")
 
     for root, dirs, files in os.walk(directory):
-        if len(dirs) == 0:
+        if c_date.match(root):
             directories[root] = files
 
     for d in directories.keys():
